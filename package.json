@@ -1,0 +1,16 @@
+{
+  "name": "thidy",
+  "version": "1.0.0",
+  "description": "A website of study resources.",
+  "author": "Xavi Lee",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.0.0-alpha.18",
+    "vue": "^3.2.40"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev src",
+    "docs:build": "vitepress build src",
+    "docs:serve": "vitepress serve src"
+  }
+}
