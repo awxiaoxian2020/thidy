@@ -1,0 +1,53 @@
+name: deploy
+on:
+    push:
+        branches: [master]
+
+env:
+    PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }} 
+    HOST: www.lxcser.top 
+    USERNAME: ${{ secrets.USERNAME }} 
+    DEPLOY_TARGET: ${{secrets.DEPLOY_TARGET}}
+    cache-name: deploy
+
+jobs:
+    build: 
+        runs-on: ubuntu-latest 
+        steps:
+            - uses: actions/checkout@master
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: v18.12.0
+
+            #缓存依赖
+            - name: Cache nodemodules
+              uses: actions/cache@v3
+              env:
+                  cache-name: cache-node-modules
+              with:
+                  path: ./node_modules 
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('./package.json') }} 
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+
+            # 装依赖
+            - name: Install
+              run: yarn
+
+            # 打包
+            - name: Build
+              run: yarn build
+
+            # 上传打包资源
+            - name: Deploy
+              uses: easingthemes/ssh-deploy@main
+              env:
+                  SSH_PRIVATE_KEY: ${{ env.PRIVATE_KEY }}
+                  ARGS: '-avz --delete'
+                  SOURCE: 'dist/'
+                  REMOTE_HOST: ${{env.HOST}}
+                  REMOTE_USER: ${{ env.USERNAME }}
+                  TARGET: ${{env.DEPLOY_TARGET}} 
