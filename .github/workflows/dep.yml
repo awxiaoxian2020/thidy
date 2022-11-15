@@ -19,7 +19,7 @@ jobs:
       # This first step will fail if there's no metadata and so the approval
       # will not occur.
       - name: check
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
