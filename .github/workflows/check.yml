@@ -2,15 +2,9 @@ name: check
 
 on:
   pull_request:
-    branches: [ "master" ]
-    paths: 
-            - 'src/**'
-            - '.vitepress/**'
-            - '.github/**'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
