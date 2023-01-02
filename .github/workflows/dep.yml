@@ -10,11 +10,24 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    needs: check
+    strategy:
+      matrix:
+        node-version: [18.x]
+    # Checking the actor will prevent your Action run failing on non-Dependabot
+    # PRs but also ensures that it only does work for Dependabot PRs.
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
       # This first step will fail if there's no metadata and so the approval
       # will not occur.
+      - name: check
+        uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+      - run: yarn
+      - run: yarn build
       - name: Dependabot metadata
         id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1.1.1
