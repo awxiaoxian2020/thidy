@@ -5,7 +5,7 @@
   "author": "Xavi Lee",
   "license": "MIT",
   "devDependencies": {
-    "vitepress": "^1.0.0-rc.15",
+    "vitepress": "^1.0.0-rc.20",
     "vue": "^3.3.4"
   },
   "scripts": {
