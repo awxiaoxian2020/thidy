@@ -14,6 +14,6 @@
     "serve": "vitepress serve"
   },
   "dependencies": {
-    "@algolia/client-search": "^4.22.0"
+    "@algolia/client-search": "^4.22.1"
   }
 }
